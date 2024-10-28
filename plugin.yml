@@ -6,7 +6,7 @@ main: Ghost\Loader
 
 permissions:
   lives.command:
-	  default: op
+    default: op
   lives.manage:
     default: op
   deathband.command:
