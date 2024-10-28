@@ -21,6 +21,10 @@ class NpcsCommand extends Command{
         if (!$player instanceof Player)
         return;
 
+        if ($args[0] == null) {
+            $player->sendMessage("§cUsage: /npcs <kit|modality>");
+            return;
+        }
         switch (strtolower($args[0])) {
             case 'kit':
                 $kit = Kit::create($player);

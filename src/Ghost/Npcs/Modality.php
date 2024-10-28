@@ -82,6 +82,8 @@ class Modality extends Human
 
                     if ($world !== null) {
                         $damager->teleport($world->getSafeSpawn());
+                        $damager->getInventory()->clearAll();
+                        $damager->getArmorInventory()->clearAll();
                     }
                 } else {
                     $damager->sendMessage(TextFormat::RED . "You have no lives left!");
