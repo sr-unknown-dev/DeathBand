@@ -12,7 +12,7 @@ class NpcsCommand extends Command{
 
     public function __construct()
     {
-        parent::__construct("npcsdeathband", "Manage npcs", "/npcs <kit|modality>");
+        parent::__construct("npcsdeathband", "Manage npcs", "/npcsdeathband <kit|modality>");
         $this->setPermission("deathband.command");
     }
 
@@ -22,7 +22,7 @@ class NpcsCommand extends Command{
         return;
 
         if ($args[0] == null) {
-            $player->sendMessage("§cUsage: /npcs <kit|modality>");
+            $player->sendMessage("§cUsage: /npcsdeathband <kit|modality>");
             return;
         }
         switch (strtolower($args[0])) {
@@ -38,7 +38,7 @@ class NpcsCommand extends Command{
                 break;
             
             default:
-                $player->sendMessage("§cUsage: /npcs <kit|modality>");
+                $player->sendMessage("§cUsage: /npcsdeathband <kit|modality>");
                 break;
         }
     }
