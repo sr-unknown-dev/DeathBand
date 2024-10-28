@@ -1,0 +1,9 @@
+name: DeathBand
+author: Idk
+version: 0.0.1
+api: 5.0.0
+main: idk\Loader
+
+permissions:
+	lives.manage:
+		default: op
