@@ -5,7 +5,7 @@ api: 5.0.0
 main: Ghost\Loader
 
 permissions:
-	lives.command:
+  lives.command:
 	  default: op
   lives.manage:
     default: op
