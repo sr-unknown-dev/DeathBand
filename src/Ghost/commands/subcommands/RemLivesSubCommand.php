@@ -7,6 +7,7 @@ namespace Ghost\commands\subcommands;
 use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\BaseSubCommand;
+use Ghost\Loader;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
@@ -14,7 +15,7 @@ use LifeSystemPlugin\Main;
 
 class RemLivesSubCommand extends BaseSubCommand {
 
-    public function __construct(string $name, string $description = "", array $aliases = []){parent::__construct($name, $description, $aliases);}
+    public function __construct(string $name, string $description = ""){parent::__construct($name, $description);}
 
     protected function prepare(): void {
     	$this->setPermission("lives.manage");
@@ -31,6 +32,6 @@ class RemLivesSubCommand extends BaseSubCommand {
         $player = $args["player"];
         $amount = $args["amount"];
         Loader::getInstance()->getLivesManager()->removeLives($player, $amount);
-        $sender->sendMessage(TextFormat::GREEN . "Has removido " . $amount . " vidas a " . $playerName);
+        $sender->sendMessage(TextFormat::GREEN . "Has removido " . $amount . " vidas a " . $player);
     }
 }

@@ -10,11 +10,14 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\enchantment\EnchantmentInstance;
+use pocketmine\item\enchantment\VanillaEnchantments;
+use pocketmine\item\PotionType;
 use pocketmine\item\VanillaItems;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\ListTag;
+use pocketmine\network\mcpe\protocol\types\Enchant;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
@@ -93,29 +96,32 @@ class Kit extends Human
                 /* Kit */
                 $damager->getInventory()->clearAll();
                 $helmet = VanillaItems::DIAMOND_HELMET();
-                $helmet->addEnchantment(new EnchantmentInstance(Enchantment::PROTECTION(), 2));
-                $helmet->addEnchantment(new EnchantmentInstance(Enchantment::UNBREAKING(), 2));
+                $helmet->addEnchantment(new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 2));
+                $helmet->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 2));
 
                 $chestplate = VanillaItems::DIAMOND_CHESTPLATE();
-                $chestplate->addEnchantment(new EnchantmentInstance(Enchantment::PROTECTION(), 2));
-                $chestplate->addEnchantment(new EnchantmentInstance(Enchantment::UNBREAKING(), 2));
+                $chestplate->addEnchantment(new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 2));
+                $chestplate->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 2));
 
                 $leggings = VanillaItems::DIAMOND_LEGGINGS();
-                $leggings->addEnchantment(new EnchantmentInstance(Enchantment::PROTECTION(), 2));
-                $leggings->addEnchantment(new EnchantmentInstance(Enchantment::UNBREAKING(), 2));
+                $leggings->addEnchantment(new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 2));
+                $leggings->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 2));
 
                 $boots = VanillaItems::DIAMOND_BOOTS();
-                $boots->addEnchantment(new EnchantmentInstance(Enchantment::PROTECTION(), 2));
-                $boots->addEnchantment(new EnchantmentInstance(Enchantment::UNBREAKING(), 2));
+                $boots->addEnchantment(new EnchantmentInstance(VanillaEnchantments::PROTECTION(), 2));
+                $boots->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 2));
 
                 $sword = VanillaItems::DIAMOND_SWORD();
-                $sword->addEnchantment(new EnchantmentInstance(Enchantment::SHARPNESS(), 2));
+                $sword->addEnchantment(new EnchantmentInstance(VanillaEnchantments::SHARPNESS(), 2));
+                $sword->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING(), 2));
 
-                 $potion = VanillaItems::SPLASH_POTION()->setType(PotionType::STRONG_HEALING);
-                 $potion->setCount(36);
-                $Apples = VanillaItems::GOLDEN_APPLE()->setCount(10);
+                $potion = VanillaItems::SPLASH_POTION()->setType(PotionType::STRONG_HEALING());
+                $potion->setCount(36);
+                $perl = VanillaItems::ENDER_PEARL()->setCount(16);
+                $Apples = VanillaItems::GOLDEN_APPLE()->setCount(32);
                 $damager->getInventory()->setItem(8, $Apples);
                 $damager->getInventory()->addItem($potion);
+                $damager->getInventory()->setItem(1, $perl);
                 $damager->getInventory()->setItem(0, $sword);
                 $damager->getArmorInventory()->setHelmet($helmet);
                 $damager->getArmorInventory()->setChestplate($chestplate);

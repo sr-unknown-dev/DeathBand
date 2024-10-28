@@ -18,15 +18,21 @@ class LivesManager
     }
 
     public function getLives(Player $player): int {
-        return $this->config->get($player->getName(), 0);
+        return $this->config->get($player->getName(), null);
     }
 
-    public function addLives(Player $player, int $amount): void {
-        $this->updateLives($player, $this->getLives($player) + $amount);
+    public function addLives($player, int $amount): void {
+        $player = $this->getPlayer($player);
+        if ($player !== null) {
+            $this->updateLives($player, $this->getLives($player) + $amount);
+        }
     }
 
-    public function removeLives(Player $player, int $amount = 1): void {
-        $this->updateLives($player, max(0, $this->getLives($player) - $amount));
+    public function removeLives($player, int $amount = 1): void {
+        $player = $this->getPlayer($player);
+        if ($player !== null) {
+            $this->updateLives($player, max(0, $this->getLives($player) - $amount));
+        }
     }
 
     private function updateLives(Player $player, int $lives): void {
@@ -36,7 +42,7 @@ class LivesManager
 
     public function addDeathBand(Player $player): void {
         $config = $this->loader->getConfig();
-        $worldName = $config->get("teleport.name.world");
+        $worldName = $config->get("teleport.name.deathband");
         $wm = Server::getInstance()->getWorldManager();
         $world = $wm->getWorldByName($worldName);
 
@@ -52,7 +58,16 @@ class LivesManager
 
     public function isInDeathBandMap(Player $player): bool {
         $config = $this->loader->getConfig();
-        $deathBandWorldName = $config->get("teleport.name.world");
+        $deathBandWorldName = $config->get("teleport.name.deathband");
         return $player->getWorld()->getFolderName() === $deathBandWorldName;
+    }
+
+    private function getPlayer($player): ?Player {
+        if ($player instanceof Player) {
+            return $player;
+        } elseif (is_string($player)) {
+            return Server::getInstance()->getPlayerExact($player);
+        }
+        return null;
     }
 }

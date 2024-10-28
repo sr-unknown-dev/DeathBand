@@ -2,11 +2,16 @@
 
 namespace Ghost\Npcs;
 
-use Ghost\Loader;  // Ensure you include this to access LivesManager
+use Ghost\Loader;
 use pocketmine\entity\Human;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\ListTag;
 use pocketmine\player\Player;
+use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use pocketmine\world\World;
 
@@ -65,9 +70,18 @@ class Modality extends Human
                 $lives = $livesManager->getLives($damager);
 
                 if ($lives >= 1) {
-                    $world = $damager->getServer()->getWorldManager()->getWorldByName("world");
-                    if ($world instanceof World) {
-                        $damager->teleport($world->getSpawnLocation());
+                    $config = Loader::getInstance()->getConfig();
+                    $worldName = $config->get("teleport.name.modality");
+                    $wm = Server::getInstance()->getWorldManager();
+                    $world = $wm->getWorldByName($worldName);
+
+                    if ($world === null) {
+                        $wm->loadWorld($worldName);
+                        $world = $wm->getWorldByName($worldName);
+                    }
+
+                    if ($world !== null) {
+                        $damager->teleport($world->getSafeSpawn());
                     }
                 } else {
                     $damager->sendMessage(TextFormat::RED . "You have no lives left!");

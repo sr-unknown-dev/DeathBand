@@ -1,9 +1,13 @@
 name: DeathBand
-author: Idk
+author: Ghost
 version: 0.0.1
 api: 5.0.0
-main: idk\Loader
+main: Ghost\Loader
 
 permissions:
-	lives.manage:
-		default: op
+	lives.command:
+	  default: op
+  lives.manage:
+    default: op
+  deathband.command:
+    default: op

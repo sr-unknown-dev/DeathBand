@@ -14,15 +14,20 @@ use Ghost\commands\subcommands\AddLivesSubCommand;
 
 class LiveCommand extends BaseCommand {
 
-    public function __construct(Loader $plugin) {parent::__construct($plugin, "lives", "Comando para ver y gestionar vidas", "/lives <add|remove> <player> [amount]");}
+    public function __construct(Loader $plugin) {parent::__construct($plugin, "live", "Comando para ver y gestionar vidas", []);}
 
     protected function prepare(): void {
     	$this->setPermission("lives.manage");
-    	$this->registerSubCommand(new AddLivesSubCommand(Loader::getInstance(), "add"));
-    	$this->registerSubCommand(new RemoveLivesSubCommand(Loader::getInstance(), "remove"));
+    	$this->registerSubCommand(new AddLivesSubCommand("add", "Añade vidas a un jugador"));
+    	$this->registerSubCommand(new RemLivesSubCommand("remove", "Remueve vidas a un jugador"));
     }
 
     public function onRun(CommandSender $sender, string $label, array $args): void {
     	$sender->sendMessage("§gUse: /lives <add|remove> <player> [amount]");
+    }
+
+    public function getPermission()
+    {
+        return "lives.manage";
     }
 }
