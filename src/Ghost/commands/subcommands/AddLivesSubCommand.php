@@ -15,7 +15,7 @@ use LifeSystemPlugin\Main;
 
 class AddLivesSubCommand extends BaseSubCommand {
 	
-		public function __construct(string $name, string $description = ""){parent::__construct($name, $description);}
+		public function __construct(string $name, string $description = ""){parent::__construct($name, $description, []);}
 
     protected function prepare(): void {
     	$this->setPermission("lives.manage");

@@ -5,8 +5,8 @@ api: 5.0.0
 main: Ghost\Loader
 
 permissions:
-	lives.command:
-	  default: op
+  lives.command:
+    default: op
   lives.manage:
     default: op
   deathband.command:
