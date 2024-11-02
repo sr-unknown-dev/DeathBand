@@ -54,7 +54,14 @@ class Kit extends Human
                 new FloatTag($player->getLocation()->yaw),
                 new FloatTag($player->getLocation()->pitch)
             ]));
-        return new self($player->getLocation(), $player->getSkin(), $nbt);
+        $entity = new self($player->getLocation(), $player->getSkin(), $nbt);
+        
+        $entity->getArmorInventory()->setHelmet(VanillaItems::DIAMOND_HELMET());
+        $entity->getArmorInventory()->setChestplate(VanillaItems::DIAMOND_CHESTPLATE());
+        $entity->getArmorInventory()->setLeggings(VanillaItems::DIAMOND_LEGGINGS());
+        $entity->getArmorInventory()->setBoots(VanillaItems::DIAMOND_BOOTS());
+        
+        return $entity;
     }
 
     public function canBeMovedByCurrents(): bool
