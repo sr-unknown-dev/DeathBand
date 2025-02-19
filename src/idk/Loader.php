@@ -10,6 +10,7 @@
 
 namespace idk;
 
+use idk\commands\GiveItemLiveCommand;
 use idk\Manager\LivesManager;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
@@ -37,6 +38,7 @@ class Loader extends PluginBase
         $this->getServer()->getCommandMap()->register("deatband", new LivesCommand($this));
         $this->getServer()->getCommandMap()->register("deatband", new LiveCommand($this));
         $this->getServer()->getCommandMap()->register("deatband", new NpcsCommand($this));
+        $this->getServer()->getCommandMap()->register("deatband", new GiveItemLiveCommand($this));
         $this->saveDefaultConfig();
         EntityFactory::getInstance()->register(Kit::class, function (World $world, CompoundTag $nbt): Kit {
         	return new Kit(EntityDataHelper::parseLocation($nbt, $world), Kit::parseSkinNBT($nbt), $nbt);

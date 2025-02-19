@@ -12,9 +12,10 @@ use pocketmine\player\Player;
 
 class Item {
 
-    public function give(Player $player){
+    public static function give(Player $player){
         $live = VanillaItems::DYE()->setColor(DyeColor::BLUE())->setLore(["§7The life of the player"]);
         $live->getNamedTag()->setString("lives", "1");
         $player->getInventory()->addItem($live);
+        $player->sendMessage("§aYou have received a life item");
     }
 }
