@@ -2,7 +2,7 @@
 
 **Versión**: 0.0.1
 
-**Autor**: Ghost
+**Autor**: Sr.Idk(Alias "Ghost")
 
 ## Descripción
 
@@ -50,4 +50,4 @@ Este plugin se distribuye bajo la GNU Lesser General Public License (LGPL). Pued
 
 ## Contacto
 
-Para soporte y más información, puedes contactar al autor Ghost a través de [Discord](https://discord.gg/user/1299584775526420544)".
+Para soporte y más información, puedes contactar al autor Ghost a través de [Discord](https://discord.gg/user/1061075896804593755)".

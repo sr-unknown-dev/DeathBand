@@ -1,6 +1,6 @@
 <?php
 
-namespace Ghost\Npcs;
+namespace idk\Npcs;
 
 use Himbeer\LibSkin\SkinConverter;
 use hcf\utils\inventorie\Inventories;

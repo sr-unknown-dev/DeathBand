@@ -1,8 +1,8 @@
 <?php
 
-namespace Ghost\Npcs;
+namespace idk\Npcs;
 
-use Ghost\Loader;
+use idk\Loader;
 use pocketmine\entity\Human;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -71,7 +71,7 @@ class Modality extends Human
 
                 if ($lives >= 1) {
                     $config = Loader::getInstance()->getConfig();
-                    $worldName = $config->get("teleport.name.modality");
+                    $worldName = $config->get("name-world-modaly");
                     $wm = Server::getInstance()->getWorldManager();
                     $world = $wm->getWorldByName($worldName);
 

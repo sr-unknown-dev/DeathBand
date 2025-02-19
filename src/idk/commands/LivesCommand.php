@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Ghost\commands;
+namespace idk\commands;
 
 use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
-use Ghost\Loader;
+use idk\Loader;
 
 class LivesCommand extends BaseCommand {
 

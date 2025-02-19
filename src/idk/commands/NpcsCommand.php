@@ -1,9 +1,9 @@
 <?php
 
-namespace Ghost\commands;
+namespace idk\commands;
 
-use Ghost\Npcs\Kit;
-use Ghost\Npcs\Modality;
+use idk\Npcs\Kit;
+use idk\Npcs\Modality;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
