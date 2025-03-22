@@ -24,15 +24,19 @@ use pocketmine\entity\EntityFactory;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\world\World;
 
-class Loader extends PluginBase
-{
+class Loader extends PluginBase {
     use SingletonTrait;
-    private $LivesManager;
 
-    protected function onLoad(): void{self::setInstance($this);}
-    protected function onEnable(): void
-    {
+    private $LivesManager;
+    private DatabaseManager $dbManager;
+
+    protected function onLoad(): void {
+        self::setInstance($this);
+    }
+
+    protected function onEnable(): void {
         $this->LivesManager = new LivesManager();
+        $this->dbManager = new DatabaseManager($this);
         $this->getLogger()->info("Deatband is Enable");
         $this->getServer()->getPluginManager()->registerEvents(new Events(), $this);
         $this->getServer()->getCommandMap()->register("deatband", new LivesCommand($this));
@@ -41,7 +45,7 @@ class Loader extends PluginBase
         $this->getServer()->getCommandMap()->register("deatband", new GiveItemLiveCommand($this));
         $this->saveDefaultConfig();
         EntityFactory::getInstance()->register(Kit::class, function (World $world, CompoundTag $nbt): Kit {
-        	return new Kit(EntityDataHelper::parseLocation($nbt, $world), Kit::parseSkinNBT($nbt), $nbt);
+            return new Kit(EntityDataHelper::parseLocation($nbt, $world), Kit::parseSkinNBT($nbt), $nbt);
         }, ['Kit']);
 
         EntityFactory::getInstance()->register(Modality::class, function (World $world, CompoundTag $nbt): Modality {
@@ -49,8 +53,11 @@ class Loader extends PluginBase
         }, ['Modality']);
     }
 
-    public function getLivesManager(): LivesManager
-    {
+    public function getLivesManager(): LivesManager {
         return $this->LivesManager;
+    }
+
+    public function getDatabaseManager(): DatabaseManager {
+        return $this->dbManager;
     }
 }

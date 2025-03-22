@@ -10,6 +10,7 @@
 
 namespace idk\Manager;
 
+use idk\DatabaseManager;
 use idk\Loader;
 use pocketmine\player\Player;
 use pocketmine\Server;
@@ -19,38 +20,50 @@ use pocketmine\world\WorldManager;
 class LivesManager
 {
     private Loader $loader;
-    private Config $config;
+    private DatabaseManager $dbManager;
     private Config $pluginConfig;
     private WorldManager $worldManager;
 
     public function __construct() {
         $this->loader = Loader::getInstance();
-        $this->config = new Config($this->loader->getDataFolder() . "lives.yml", Config::YAML);
+        $this->dbManager = $this->loader->getDatabaseManager();
         $this->pluginConfig = $this->loader->getConfig();
         $this->worldManager = Server::getInstance()->getWorldManager();
     }
 
     public function getLives(Player $player): int {
-        return $this->config->get($player->getName(), 0);
+        $stmt = $this->dbManager->getDatabase()->prepare("SELECT lives FROM players WHERE name = ?");
+        $stmt->bind_param("s", $player->getName());
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $lives = $result->fetch_assoc()["lives"] ?? 0;
+        $stmt->close();
+        return $lives;
     }
 
     public function addLives(Player|string $player, int $amount): void {
         $player = $this->getPlayer($player);
         if ($player !== null) {
-            $this->updateLives($player, $this->getLives($player) + $amount);
+            $currentLives = $this->getLives($player);
+            $newLives = $currentLives + $amount;
+            $this->updateLives($player, $newLives);
         }
     }
 
     public function removeLives(Player|string $player, int $amount = 1): void {
         $player = $this->getPlayer($player);
         if ($player !== null) {
-            $this->updateLives($player, max(0, $this->getLives($player) - $amount));
+            $currentLives = $this->getLives($player);
+            $newLives = max(0, $currentLives - $amount);
+            $this->updateLives($player, $newLives);
         }
     }
 
     private function updateLives(Player $player, int $lives): void {
-        $this->config->set($player->getName(), $lives);
-        $this->config->save();
+        $stmt = $this->dbManager->getDatabase()->prepare("UPDATE players SET lives = ? WHERE name = ?");
+        $stmt->bind_param("is", $lives, $player->getName());
+        $stmt->execute();
+        $stmt->close();
     }
 
     public function addDeathBand(Player $player): void {

@@ -1,2 +1,9 @@
 name-world-modaly: world
 teleport.name.deathband: deathband
+
+database:
+  host: ""
+  user: ""
+  password: ""
+  database: ""
+  port: 
