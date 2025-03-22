@@ -59,36 +59,36 @@ class Modality extends Human
     }
 
     public function attack(EntityDamageEvent $source): void
-    {
-        $source->cancel();
+{
+    $source->cancel();
 
-        if ($source instanceof EntityDamageByEntityEvent) {
-            $damager = $source->getDamager();
+    if ($source instanceof EntityDamageByEntityEvent) {
+        $damager = $source->getDamager();
 
-            if ($damager instanceof Player) {
-                $livesManager = Loader::getInstance()->getLivesManager();
-                $lives = $livesManager->getLives($damager);
+        if ($damager instanceof Player) {
+            $livesManager = Loader::getInstance()->getLivesManager();
+            $lives = $livesManager->getLives($damager);
 
-                if ($lives >= 1) {
-                    $config = Loader::getInstance()->getConfig();
-                    $worldName = $config->get("name-world-modaly");
-                    $wm = Server::getInstance()->getWorldManager();
+            if ($lives >= 1) {
+                $config = Loader::getInstance()->getConfig();
+                $worldName = $config->get("name-world-modaly");
+                $wm = Server::getInstance()->getWorldManager();
+                $world = $wm->getWorldByName($worldName);
+
+                if ($world === null) {
+                    $wm->loadWorld($worldName);
                     $world = $wm->getWorldByName($worldName);
-
-                    if ($world === null) {
-                        $wm->loadWorld($worldName);
-                        $world = $wm->getWorldByName($worldName);
-                    }
-
-                    if ($world !== null) {
-                        $damager->teleport($world->getSafeSpawn());
-                        $damager->getInventory()->clearAll();
-                        $damager->getArmorInventory()->clearAll();
-                    }
-                } else {
-                    $damager->sendMessage(TextFormat::RED . "You have no lives left!");
                 }
+
+                if ($world !== null) {
+                    $damager->teleport($world->getSafeSpawn());
+                    $damager->getInventory()->clearAll();
+                    $damager->getArmorInventory()->clearAll();
+                }
+            } else {
+                $damager->sendMessage(TextFormat::RED . "You have no lives left!");
             }
         }
     }
+}
 }

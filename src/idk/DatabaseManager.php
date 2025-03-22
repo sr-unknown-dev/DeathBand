@@ -10,8 +10,8 @@ class DatabaseManager {
     private mysqli $database;
 
     public function __construct(private PluginBase $plugin) {
-        $config = new Config($this->plugin->getDataFolder() . "config.yml", Config::YAML);
-        $mysql = $config->get("mysql");
+        $config = new Config(Loader::getInstance()->getDataFolder() . "config.json", Config::JSON);
+        $mysql = $config->get("database");
 
         $this->database = new mysqli(
             $mysql["host"], 
@@ -20,11 +20,11 @@ class DatabaseManager {
             $mysql["database"], 
             $mysql["port"]
         );
-
+        
         if ($this->database->connect_error) {
-            $this->plugin->getLogger()->error("❌ Error en la conexión MySQL: " . $this->database->connect_error);
+            Loader::getInstance()->getLogger()->error("❌ Error en la conexión MySQL: " . $this->database->connect_error);
         } else {
-            $this->plugin->getLogger()->info("✅ Conexión a MySQL exitosa.");
+            Loader::getInstance()->getLogger()->info("✅ Conexión a MySQL exitosa.");
         }
     }
 

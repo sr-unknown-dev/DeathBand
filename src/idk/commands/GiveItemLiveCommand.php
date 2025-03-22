@@ -6,26 +6,30 @@ namespace idk\commands;
 
 use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\Player;
+use pocketmine\player\Player; // Corrected namespace
 use pocketmine\utils\TextFormat;
 use idk\Loader;
-use idk\commands\subcommands\RemLivesSubCommand;
-use idk\commands\subcommands\AddLivesSubCommand;
 use idk\Item;
 
 class GiveItemLiveCommand extends BaseCommand {
 
-    public function __construct(Loader $plugin) {parent::__construct($plugin, "itemlive", "Comando para recivir el item que te da vidas", []);}
+    public function __construct(Loader $plugin) {
+        parent::__construct($plugin, "itemlive", "Command to receive the item that gives lives", []);
+    }
 
     protected function prepare(): void {
-    	$this->setPermission("lives.manage");
+        $this->setPermission("lives.manage");
     }
 
     public function onRun(CommandSender $sender, string $label, array $args): void {
-    	Item::give($sender);
+        if (!$sender instanceof Player) {
+            $sender->sendMessage(TextFormat::RED . "This command can only be used in-game.");
+            return;
+        }
+        Item::give($sender);
     }
 
-    public function getPermission()
+    public function getPermission(): ?string
     {
         return "lives.manage";
     }
